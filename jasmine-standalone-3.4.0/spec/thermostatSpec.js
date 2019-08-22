@@ -70,4 +70,31 @@ describe('Thermostat', function() {
           expect(thermostat.getCurrentTemperature()).toEqual(32);
         });
     });
+
+    describe('Energy Usage', function(){
+        describe('when the temperature is below 18 degrees', function() {
+            it('is considered low-usage', function() {
+                for(var i=0; i<4; i++) {
+                    thermostat.down();
+                }
+                expect(thermostat.energyUsage()).toEqual('Low-Usage');
+            });
+        });
+
+        describe('When the temperature is between 18-25 degrees', function(){
+            it('is considered medium-usage', function(){
+                expect(thermostat.energyUsage()).toEqual('Medium-Usage');
+            });
+        });
+
+        describe('Whe the temperature is anything else', function(){
+            it('is considered High-Usage', function() {
+                thermostat.powerSavingMode = false;
+                for(var i=0; i<6; i++) {
+                    thermostat.up();
+                }
+                expect(thermostat.energyUsage()).toEqual('High-Usage');
+            });
+        });
+    });
 });
